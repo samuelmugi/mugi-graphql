@@ -3,6 +3,7 @@ package com.mugigraphql.service;
 import com.mugigraphql.entity.Person;
 import com.mugigraphql.repos.PersonRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,16 +13,18 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class PersonService {
     private final PersonRepository personRepository;
 
 
     public String addPerson(Person newPerson) {
+        log.info("newPerson:-"+newPerson);
         var person = personRepository.save(newPerson);
         return "Person " + person + " saved succussefully";
     }
 
-    public Person getPerson(int id) {
+    public Person getPerson(Long id) {
         var person = personRepository.findById(id);
         return person.get();
     }
@@ -36,4 +39,7 @@ public class PersonService {
         return persons;
     }
 
+    public Person findByEmail(String email) {
+        return  personRepository.findByEmail(email).get();
+    }
 }
